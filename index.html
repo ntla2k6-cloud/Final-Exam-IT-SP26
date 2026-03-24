@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FPTU FE SP26 — Ôn Tập Lengg</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Be+Vietnam+Pro:wght@300;400;500;600;700&family=Cinzel:wght@400;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+<link rel="stylesheet" href="style.css">
+</head>
+
+</head>
+<body>
+<div class="wrap">
+
+<div class="hdr">
+  <div class="hdr-top">
+    <div>
+      <div class="logo-main">FPT University<span> / </span>FE SP26</div>
+      <div class="logo-sub">Ôn tập của Lengg — Spring 2026</div>
+    </div>
+    <div class="hdr-right">
+      <span class="badge">SPRING 2026</span>
+      <span class="hdr-stat" id="hdrStat">Đang tải...</span>
+    </div>
+  </div>
+  <div class="tabs">
+    <button class="tab-btn on" data-tab="CSI106" onclick="switchTab(this)">CSI106 <span class="tab-cnt" id="cnt-CSI106">0</span><span class="tab-sub">Nhập môn CNTT</span></button>
+    <button class="tab-btn" data-tab="CEA201" onclick="switchTab(this)">CEA201 <span class="tab-cnt" id="cnt-CEA201">0</span><span class="tab-sub">Kiến trúc máy tính</span></button>
+    <button class="tab-btn" data-tab="MAE101" onclick="switchTab(this)">MAE101<span class="tab-sub">Toán — Tài liệu tham khảo</span></button>
+    <button class="tab-btn" data-tab="PRF192" onclick="switchTab(this)">PRF192 <span class="tab-cnt" id="cnt-PRF192">0</span><span class="tab-sub">Lập trình C cơ bản</span></button>
+  </div>
+  <div class="top-prog"><div class="top-fill" id="topFill"></div></div>
+</div>
+
+<div class="layout">
+  <div class="sidebar" id="sidebarEl">
+    <div class="sb-lbl">Tiến độ</div>
+    <div class="stats-g">
+      <div class="sc s-tot"><div class="sn" id="sTot">0</div><div class="sl">Tổng câu</div></div>
+      <div class="sc s-ok"><div class="sn" id="sOk">0</div><div class="sl">Đúng</div></div>
+      <div class="sc s-ng"><div class="sn" id="sNg">0</div><div class="sl">Sai</div></div>
+      <div class="sc s-sk"><div class="sn" id="sSk">0</div><div class="sl">Chưa làm</div></div>
+    </div>
+    <div class="prog-wrap">
+      <div class="prog-lbl"><span>Hoàn thành</span><span id="sPct">0%</span></div>
+      <div class="prog-bar"><div class="prog-fill" id="sFill"></div></div>
+    </div>
+    <div class="sb-lbl" style="margin-top:6px">Danh sách câu</div>
+    <div class="dots" id="dotsList"></div>
+  </div>
+
+  <div class="content" id="contentArea">
+    <div id="quizPanel">
+      <div class="ctrl">
+        <span class="clbl">CHẾ ĐỘ:</span>
+        <button class="mbtn on" id="modeQ" onclick="setMode('quiz')">Quiz</button>
+        <button class="mbtn" id="modeS" onclick="setMode('study')">Học</button>
+        <div class="dvdr"></div>
+        <span class="clbl">LỌC:</span>
+        <button class="fbtn on" onclick="setFilter('all',this)">Tất cả</button>
+        <button class="fbtn" onclick="setFilter('undo',this)">Chưa làm</button>
+        <button class="fbtn" onclick="setFilter('ok',this)">Đúng</button>
+        <button class="fbtn" onclick="setFilter('ng',this)">Sai</button>
+        <input type="text" class="sinp" placeholder="Tìm kiếm..." oninput="doSearch(this.value)" id="sinp">
+      </div>
+      <div class="ctrl" id="semWrap" style="padding:8px 14px;gap:6px;flex-wrap:wrap;min-height:36px;"></div>
+      <div class="grow">
+        <span class="ginfo" id="gInfo">0 câu</span>
+        <button class="btn bp" onclick="revealAll()">Hiện tất cả đáp án</button>
+        <button class="btn bs" onclick="resetAll()">Làm lại từ đầu</button>
+        <button class="btn bd" onclick="openModal()">Xem kết quả</button>
+      </div>
+      <div id="cardList"></div>
+    </div>
+    <div id="maePanel" style="display:none;">
+      <div class="mae-nav">
+        <button class="mnb on" onclick="maeShow('ma1',this)">ALG 1: Ma Trận</button>
+        <button class="mnb" onclick="maeShow('ma2',this)">ALG 2: Hệ PT</button>
+        <button class="mnb" onclick="maeShow('ma3',this)">ALG 3: Định Thức</button>
+        <button class="mnb" onclick="maeShow('ma4',this)">ALG 4: Không Gian</button>
+        <button class="mnb" onclick="maeShow('mc1',this)">CAL 1: Hàm Số</button>
+        <button class="mnb" onclick="maeShow('mc2',this)">CAL 2: Giới Hạn</button>
+        <button class="mnb" onclick="maeShow('mc3',this)">CAL 3: Đạo Hàm</button>
+        <button class="mnb" onclick="maeShow('mc4',this)">CAL 4: Ứng Dụng</button>
+        <button class="mnb" onclick="maeShow('mc5',this)">CAL 5-6: Tích Phân</button>
+      </div>
+      <div class="mae-body" id="maeBody"></div>
+    </div>
+  </div>
+</div>
+
+<div class="mov" id="modal">
+  <div class="mbox">
+    <h2>Kết Quả Ôn Tập</h2>
+    <div class="mscore" id="mScore">0/0</div>
+    <p id="mPct" style="font-family:var(--mono);font-size:1.3rem;color:var(--yellow);margin:4px 0 8px"></p>
+    <p id="mMsg"></p>
+    <button class="btn bp" onclick="closeModal()">Đóng</button>
+  </div>
+</div>
+</div>
+
+
+<script src="db-csi.js"></script>
+<script src="db-cea.js"></script>
+<script src="db-mae.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
