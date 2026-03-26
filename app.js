@@ -2,7 +2,7 @@
 const DB={
   CSI106: CSI106_DATA,
   CEA201: CEA201_DATA,
-  PRF192: [],
+  PRF192: PRF192_DATA,
 };
 
 const S={tab:'CSI106',mode:'quiz',filter:'all',semFilter:'all',search:'',ans:{},res:{}};
